@@ -3,13 +3,13 @@
 ## A Basic Python Server
 Complete vanilla python server, no need for external libraries etc.
 
-### Features
+### Basic Features
 
 <ol>
 <li>Static Server</li>
 <li>Controllers</li>
 <li>Templates</li>
-<li>POST API</li>
+<li>XHR (POST)</li>
 </ol>
 
 ***
@@ -77,3 +77,13 @@ ex. :
         username : '',
         password : ''
     })
+
+### TODOs
+
+Some basic features left to complete
+
+<ul>
+<li>Todo :: XHR (GET)</li>
+<li>Todo :: Email (SMTP Transports)</li>
+<li>Todo :: Sessions</li>
+</ul>
