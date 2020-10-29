@@ -1,6 +1,7 @@
 # python-server
 
 ## A Basic Python Server
+Complete vanilla python server, no need for external libraries etc.
 
 ### Features
 
@@ -12,6 +13,16 @@
 </ol>
 
 ***
+
+### install & init
+
+    git clone https://github.com/mooioom/python-server
+
+And then...
+
+    python server.py
+
+Server is running on port 80 (default)
 
 ### routes.json
 Use routes.json to define routes
@@ -53,7 +64,7 @@ This contains a basic **call** function to XHR the server
 
 <em>call( action_name, callback, data )</em>
 
-including the API :
+including the API :<br>
     <script src="__public/js/api.js" /></script>
 
 ex. :
