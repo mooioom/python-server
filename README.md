@@ -8,5 +8,21 @@
 <li>Static Server</li>
 <li>Controllers</li>
 <li>Templates</li>
-<li>Basic POST API</li>
+<li>POST API</li>
 </ol>
+
+### routes.json
+
+Use routes.json to define routes
+
+    [
+        {
+            "uri" : "/",
+            "target" : "index.html"
+        },
+        {
+            "uri" : "/controller",
+            "controller" : "basic_controller"
+        }
+    ]
+

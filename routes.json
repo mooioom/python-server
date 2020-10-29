@@ -5,6 +5,6 @@
     },
     {
         "uri" : "/controller",
-        "controller" : "a"
+        "controller" : "basic_controller"
     }
 ]
