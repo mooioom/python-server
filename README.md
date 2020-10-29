@@ -37,13 +37,13 @@ Use the __public prefix in HTML to serve static files under the 'public' folder
 
 Data can be passed to HTML templates using double-curlies {{}}
 
-basic_template.html
+**basic_template.html**
 
     <div>
         Hello {{name}}, How Are You?
     </div>
 
-ctrl/basic.py
+**ctrl/basic.py**
 
     def default( server ):
         content = server.template( 'basic_template', { 'name' : 'David' } )
