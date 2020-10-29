@@ -1,0 +1,10 @@
+[
+    {
+        "uri" : "/",
+        "target" : "index.html"
+    },
+    {
+        "uri" : "/controller",
+        "controller" : "a"
+    }
+]
