@@ -1,7 +1,7 @@
 # python-server
 
 ## A Basic Python Server
-Complete vanilla python server, no need for external libraries etc.
+Complete vanilla python server, no external libraries required
 
 ### Basic Features
 
