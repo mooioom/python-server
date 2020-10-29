@@ -26,3 +26,10 @@ Use routes.json to define routes
         }
     ]
 
+### __public
+
+Use the __public prefix in HTML to serve static files under the 'public' folder
+
+    <img src="__public/img/image.jpg" />
+    <script src="__public/js/main.js"></script>
+    
