@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="__public/js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            call('ping',function(r){
+                console.log('r',r);
+            },{
+                a : 1,
+                b : [
+                    {
+                        c : 1
+                    }
+                ],
+                d : {
+                    r : '123'
+                }
+            })
+        })
+    </script>
+    <title>Test Template</title>
+</head>
+<body>
+    {{hello}}
+</body>
+</html>
