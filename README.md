@@ -14,7 +14,6 @@
 ***
 
 ### routes.json
-
 Use routes.json to define routes
 
     [
@@ -29,14 +28,12 @@ Use routes.json to define routes
     ]
 
 ### __public
-
 Use the __public prefix in HTML to serve static files under the 'public' folder
 
     <img src="__public/img/image.jpg" />
     <script src="__public/js/main.js"></script>
 
 ### Templating
-
 Data can be passed to HTML templates using double-curlies {{}}
 
 **basic_template.html**
@@ -50,3 +47,22 @@ Data can be passed to HTML templates using double-curlies {{}}
     def default( server ):
         content = server.template( 'basic_template', { 'name' : 'David' } )
         server.respond( content )
+
+### call API - public/js/api.js
+This contains a basic **call** function to XHR the server
+
+<em>call( action_name, callback, data )</em>
+
+including the API :
+    <script src="__public/js/api.js" /></script>
+
+ex. :
+
+    call('login', r => {
+    
+        if( r ) location.reload();
+        
+    }, {
+        username : '',
+        password : ''
+    })
