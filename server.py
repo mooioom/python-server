@@ -24,6 +24,7 @@ class Handler( http.server.SimpleHTTPRequestHandler ):
 
     content_types = {
         'html'  : 'text/html',
+        'css'   : 'text/css',
         'jpg'   : 'image/jpeg',
         'jpeg'  : 'image/jpeg',
         'js'    : 'text/javascript'
