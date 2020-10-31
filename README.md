@@ -83,7 +83,7 @@ ex. :
 ### Emailer
 The SMTP emailer can be defined on server.py (defaults to Gmail)
 
-Example : 
+Example :<br/>
     SMTP_HOST = 'smtp.gmail.com'
     SMTP_PORT = 465
 
