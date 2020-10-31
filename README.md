@@ -10,6 +10,7 @@ Complete vanilla python server, no external libraries required
 <li>Controllers</li>
 <li>Templates</li>
 <li>XHR (POST)</li>
+<li>XHR (GET) *</li>
 </ol>
 
 ***
@@ -83,7 +84,7 @@ ex. :
 Some basic features left to complete
 
 <ul>
-<li>Todo :: XHR (GET)</li>
+<li>Todo :: XHR (GET) - URL variables missing</li>
 <li>Todo :: Email (SMTP Transports)</li>
 <li>Todo :: Sessions</li>
 </ul>

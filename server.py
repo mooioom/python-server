@@ -14,6 +14,9 @@ CONTROLLERS_FOLDER  = 'ctrl'
 PUBLIC_FOLDER       = 'public'
 TEMPLATES_FOLDER    = 'templates'
 
+API_PREFIX      = '/__api/'
+PUBLIC_PREFIX   = '/__public/'
+
 with open('routes.json') as json_file:
     routes = json.load(json_file)
 
@@ -56,21 +59,19 @@ class Handler( http.server.SimpleHTTPRequestHandler ):
 
         return text
 
-    def do_POST(self):
+    def api_handler( self ):
 
-        try:
+        uri = str( self.path )
 
-            self.data_string = self.rfile.read(int(self.headers['Content-Length']))
-            
-            data = json.loads( self.data_string )
+        if( uri.startswith( API_PREFIX ) ):
 
-            uri = str( self.path )
+                try:
+                    self.post_data_string = self.rfile.read(int(self.headers['Content-Length']))
+                    postData = json.loads( self.post_data_string )
+                except:
+                    postData = {}
 
-            perfix = '/__api/'
-
-            if( uri.startswith( perfix ) ):
-
-                _api = uri[len(perfix):].split('/')
+                _api = uri[len(API_PREFIX):].split('/')
 
                 module = _api[0]
                 method = 'default' if len(_api) == 1 else _api[1]
@@ -78,8 +79,16 @@ class Handler( http.server.SimpleHTTPRequestHandler ):
                 if( os.path.isfile( API_FOLDER + '/' + module + '.py' ) ):
                     sys.path.append( API_FOLDER + '/' )
                     api = importlib.import_module( module )
-                    getattr( api, method )(*[ self, data ])
-                    return
+                    getattr( api, method )(*[ self, postData ])
+                    return True
+        
+        return False
+
+    def do_POST(self):
+
+        try:
+
+            if( self.api_handler() ): return
 
             self.respondJson()
 
@@ -96,8 +105,10 @@ class Handler( http.server.SimpleHTTPRequestHandler ):
 
             print('GET request,\nURI: ' + uri)
 
-            if( uri.startswith('/__public/') ): 
-                file_path = PUBLIC_FOLDER + '/' + uri.split('/__public/')[1]
+            if( self.api_handler() ): return
+
+            if( uri.startswith( PUBLIC_PREFIX ) ): 
+                file_path = PUBLIC_FOLDER + '/' + uri.split( PUBLIC_PREFIX )[1]
             else:
                 for item in routes:
                     if(item['uri'] == uri): 

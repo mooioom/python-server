@@ -1,11 +1,11 @@
 # API controller demo
 
-def default( server, data ):
+def default( server, postData = None, getData = None ):
 
     print("ping::defualt")
 
-    server.respondJson(data)
+    server.respondJson(postData)
 
-def sub_method( server, data ):
+def sub_method( server, postData ):
 
     server.respondJson(True)
