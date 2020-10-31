@@ -31,10 +31,6 @@ Use routes.json to define routes
 
     [
         {
-            "uri" : "/",
-            "target" : "index.html" // points to 'public' folder
-        },
-        {
             "uri" : "/controller",
             "controller" : "basic_controller"   // points to 'ctrl' folder
         }
