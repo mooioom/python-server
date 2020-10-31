@@ -7,6 +7,9 @@ import sys
 import os
 import re
 
+import urllib.parse as urlparse
+from urllib.parse import parse_qs
+
 PORT = 80
 if(1 in range(len(sys.argv))): PORT = sys.argv[1]
 
@@ -15,8 +18,8 @@ CONTROLLERS_FOLDER  = 'ctrl'
 PUBLIC_FOLDER       = 'public'
 TEMPLATES_FOLDER    = 'templates'
 
-API_PREFIX      = '/__api/'
-PUBLIC_PREFIX   = '/__public/'
+API_PREFIX    = '/__api/'
+PUBLIC_PREFIX = '/__public/'
 
 with open('routes.json') as json_file:
     routes = json.load(json_file)
@@ -72,6 +75,9 @@ class Handler( http.server.SimpleHTTPRequestHandler ):
                 except:
                     postData = {}
 
+                parsed  = urlparse.urlparse(uri)
+                getData = parse_qs(parsed.query)
+
                 _api = uri[len(API_PREFIX):].split('/')
 
                 module = _api[0]
@@ -80,7 +86,7 @@ class Handler( http.server.SimpleHTTPRequestHandler ):
                 if( os.path.isfile( API_FOLDER + '/' + module + '.py' ) ):
                     sys.path.append( API_FOLDER + '/' )
                     api = importlib.import_module( module )
-                    getattr( api, method )(*[ self, postData ])
+                    getattr( api, method )(*[ self, postData, getData ])
                     return True
         
         return False
