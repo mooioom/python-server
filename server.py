@@ -22,8 +22,13 @@ TEMPLATES_FOLDER   = 'templates'
 API_PREFIX    = '/__api/'
 PUBLIC_PREFIX = '/__public/'
 
-GMAIL_USER     = ''
-GMAIL_PASSWORD = ''
+#emailer
+
+SMTP_HOST = 'smtp.gmail.com'
+SMTP_PORT = 465
+
+SMTP_USER     = ''
+SMTP_PASSWORD = ''
 
 with open('routes.json') as json_file:
     routes = json.load(json_file)
@@ -97,12 +102,12 @@ class Handler( http.server.SimpleHTTPRequestHandler ):
 
     def email(self, to = [], subject = '', body = '' ):
 
-        gmail_user     = GMAIL_USER
-        gmail_password = GMAIL_PASSWORD
+        user     = SMTP_USER
+        password = SMTP_PASSWORD
 
-        sent_from = gmail_user
+        sent_from = user
 
-        email_text = """\
+        email = """\
         From: %s
         To: %s
         Subject: %s
@@ -111,14 +116,16 @@ class Handler( http.server.SimpleHTTPRequestHandler ):
         """ % (sent_from, ", ".join(to), subject, body)
 
         try:
-            server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+            server = smtplib.SMTP_SSL( SMTP_HOST , SMTP_PORT )
             server.ehlo()
-            server.login(gmail_user, gmail_password)
-            server.sendmail(sent_from, to, email_text)
+            server.login( user, password )
+            server.sendmail( sent_from, to, email )
             server.close()
 
             print('Email sent!')
+
         except Exception as e:
+
             print('Email error :: ' + str(e) )
 
     def do_POST(self):

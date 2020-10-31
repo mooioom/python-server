@@ -9,6 +9,7 @@ Complete vanilla python server, no external libraries required
 <li>Static Server</li>
 <li>Controllers</li>
 <li>Templates</li>
+<li>SMTP Emailer</li>
 <li>XHR (POST)</li>
 <li>XHR (GET)</li>
 </ol>
@@ -79,11 +80,17 @@ ex. :
         password : ''
     })
 
+### Emailer
+The SMTP emailer can be defined on server.py (defaults to Gmail)
+
+Example : 
+    SMTP_HOST = 'smtp.gmail.com'
+    SMTP_PORT = 465
+
 ### TODOs
 
 Some basic features left to complete
 
 <ul>
-<li>Todo :: Email (SMTP Transports)</li>
 <li>Todo :: Sessions</li>
 </ul>
