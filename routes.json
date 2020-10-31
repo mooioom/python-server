@@ -4,6 +4,10 @@
         "target" : "index.html"
     },
     {
+        "uri" : "/email_tester",
+        "target" : "email_tester.html"
+    },
+    {
         "uri" : "/controller",
         "controller" : "basic_controller"
     }

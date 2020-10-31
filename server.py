@@ -3,6 +3,7 @@ import socketserver
 import logging
 import json
 import importlib
+import smtplib
 import sys
 import os
 import re
@@ -13,13 +14,16 @@ from urllib.parse import parse_qs
 PORT = 80
 if(1 in range(len(sys.argv))): PORT = sys.argv[1]
 
-API_FOLDER          = 'api'
-CONTROLLERS_FOLDER  = 'ctrl'
-PUBLIC_FOLDER       = 'public'
-TEMPLATES_FOLDER    = 'templates'
+API_FOLDER         = 'api'
+CONTROLLERS_FOLDER = 'ctrl'
+PUBLIC_FOLDER      = 'public'
+TEMPLATES_FOLDER   = 'templates'
 
 API_PREFIX    = '/__api/'
 PUBLIC_PREFIX = '/__public/'
+
+GMAIL_USER     = ''
+GMAIL_PASSWORD = ''
 
 with open('routes.json') as json_file:
     routes = json.load(json_file)
@@ -69,27 +73,53 @@ class Handler( http.server.SimpleHTTPRequestHandler ):
 
         if( uri.startswith( API_PREFIX ) ):
 
-                try:
-                    self.post_data_string = self.rfile.read(int(self.headers['Content-Length']))
-                    postData = json.loads( self.post_data_string )
-                except:
-                    postData = {}
+            try:
+                self.post_data_string = self.rfile.read(int(self.headers['Content-Length']))
+                postData = json.loads( self.post_data_string )
+            except:
+                postData = {}
 
-                parsed  = urlparse.urlparse(uri)
-                getData = parse_qs(parsed.query)
+            parsed  = urlparse.urlparse(uri)
+            getData = parse_qs(parsed.query)
 
-                _api = uri[len(API_PREFIX):].split('/')
+            _api = uri[len(API_PREFIX):].split('/')
 
-                module = _api[0]
-                method = 'default' if len(_api) == 1 else _api[1]
+            module = _api[0]
+            method = 'default' if len(_api) == 1 else _api[1]
 
-                if( os.path.isfile( API_FOLDER + '/' + module + '.py' ) ):
-                    sys.path.append( API_FOLDER + '/' )
-                    api = importlib.import_module( module )
-                    getattr( api, method )(*[ self, postData, getData ])
-                    return True
+            if( os.path.isfile( API_FOLDER + '/' + module + '.py' ) ):
+                sys.path.append( API_FOLDER + '/' )
+                api = importlib.import_module( module )
+                getattr( api, method )(*[ self, postData, getData ])
+                return True
         
         return False
+
+    def email(self, to = [], subject = '', body = '' ):
+
+        gmail_user     = GMAIL_USER
+        gmail_password = GMAIL_PASSWORD
+
+        sent_from = gmail_user
+
+        email_text = """\
+        From: %s
+        To: %s
+        Subject: %s
+
+        %s
+        """ % (sent_from, ", ".join(to), subject, body)
+
+        try:
+            server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+            server.ehlo()
+            server.login(gmail_user, gmail_password)
+            server.sendmail(sent_from, to, email_text)
+            server.close()
+
+            print('Email sent!')
+        except Exception as e:
+            print('Email error :: ' + str(e) )
 
     def do_POST(self):
 

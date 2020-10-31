@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="__public/js/api.js"></script>
+    <script src="__public/js/main.js"></script>
+    <link rel="stylesheet" href="__public/css/main.css">
+    <title>Test Email</title>
+</head>
+<body>
+    <h1>Email Tester</h1>
+    <input id="to" placeholder="To" />
+    <input id="submit" type="submit" />
+    <script>
+        submit.onclick = function(){
+
+            call('email_tester',function( r ){
+                console.log(r);
+            },{
+                to : [to.value]
+            })
+
+        }
+    </script>
+</body>
+</html>
