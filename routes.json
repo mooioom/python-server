@@ -1,9 +1,5 @@
 [
     {
-        "uri" : "/",
-        "target" : "index.html"
-    },
-    {
         "uri" : "/email_tester",
         "target" : "email_tester.html"
     },

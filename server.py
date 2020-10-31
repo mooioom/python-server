@@ -60,6 +60,22 @@ class Handler( http.server.SimpleHTTPRequestHandler ):
         ba.extend(map(ord,  json.dumps( data ) ))
         self.wfile.write( ba )
 
+    def respondFile( self, file_path ):
+
+        try:
+            extension = file_path.split('.')[1]
+        except:
+            extension = 'html'
+
+        f = open( file_path ,'rb')
+
+        self.send_response( 200 )
+        self.send_header('Content-type', self.content_types[extension] or 'text/html' )
+        self.end_headers()
+        self.wfile.write(f.read())
+
+        f.close()
+
     def template( self, template, data = {} ):
         
         f = open( TEMPLATES_FOLDER + '/' + template + '.html' )
@@ -145,40 +161,31 @@ class Handler( http.server.SimpleHTTPRequestHandler ):
         try:
 
             uri = str( self.path )
-            file_path = PUBLIC_FOLDER + '/404.html'
 
             print('GET request,\nURI: ' + uri)
 
             if( self.api_handler() ): return
 
-            if( uri.startswith( PUBLIC_PREFIX ) ): 
-                file_path = PUBLIC_FOLDER + '/' + uri.split( PUBLIC_PREFIX )[1]
-            else:
-                for item in routes:
-                    if(item['uri'] == uri): 
-                        if 'target' in item.keys() : file_path = PUBLIC_FOLDER + '/' + item['target']
-                        if 'controller' in item.keys() :
-                            sys.path.append( CONTROLLERS_FOLDER + '/' )
-                            ctrl = importlib.import_module( item['controller'] )
-                            ctrl.default( self )
-                            return
+            file_path = PUBLIC_FOLDER + '/' + uri
 
-            extension = file_path.split('.')[1]
+            if( uri == '/' ): file_path = PUBLIC_FOLDER + '/' + 'index.html'
+            
+            for item in routes:
+                if(item['uri'] == uri): 
+                    if 'target' in item.keys() : file_path = PUBLIC_FOLDER + '/' + item['target']
+                    if 'controller' in item.keys() :
+                        sys.path.append( CONTROLLERS_FOLDER + '/' )
+                        ctrl = importlib.import_module( item['controller'] )
+                        ctrl.default( self )
+                        return
 
-            f = open( file_path ,'rb')
-
-            self.send_response( 200 )
-            self.send_header('Content-type', self.content_types[extension] or 'text/html' )
-            self.end_headers()
-            self.wfile.write(f.read())
-
-            f.close()
+            self.respondFile( file_path )            
 
             return
 
         except IOError:
 
-            self.send_error(404, 'File Not Found: %s' % self.path)
+            self.respondFile( PUBLIC_FOLDER + '/404.html' )
 
 with socketserver.TCPServer(('', PORT), Handler) as httpd:
 

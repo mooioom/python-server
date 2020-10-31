@@ -40,12 +40,6 @@ Use routes.json to define routes
         }
     ]
 
-### __public
-Use the __public prefix in HTML to serve static files under the 'public' folder
-
-    <img src="__public/img/image.jpg" />
-    <script src="__public/js/main.js"></script>
-
 ### Templating
 Data can be passed to HTML templates using double-curlies {{}}
 
@@ -69,7 +63,7 @@ This contains a basic **call** function to XHR the server
 including the API :<br>
     <script src="__public/js/api.js" /></script>
 
-ex. :
+Example :
 
     call('login', r => {
     
