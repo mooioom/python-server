@@ -8,6 +8,7 @@ import os
 import re
 
 PORT = 80
+if(1 in range(len(sys.argv))): PORT = sys.argv[1]
 
 API_FOLDER          = 'api'
 CONTROLLERS_FOLDER  = 'ctrl'

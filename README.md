@@ -21,7 +21,7 @@ Complete vanilla python server, no external libraries required
 
 And then...
 
-    python server.py
+    python server.py <port>
 
 Server is running on port 80 (default)
 
